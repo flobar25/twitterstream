@@ -1,6 +1,7 @@
 package com.newtonx.twitterstream.security;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -11,7 +12,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-// We should use OncePerRequestFilter since we are doing a database call, there is no point in doing this more than once
+/**
+ * Filter that checks the authorization header from the request and authenticate
+ * the user if the token is valid
+ *
+ * @author florentbariod
+ *
+ */
 public class JwtTokenFilter extends OncePerRequestFilter {
 
 	private final JwtTokenProvider jwtTokenProvider;
@@ -29,9 +36,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 			bearerToken = bearerToken.substring(7);
 		}
 
-		final Authentication auth = jwtTokenProvider.getAuthentication(bearerToken);
-		if (auth != null) {
-			SecurityContextHolder.getContext().setAuthentication(auth);
+		// set sprint security context if token is valid
+		final Optional<Authentication> auth = jwtTokenProvider.getAuthentication(bearerToken);
+		if (auth.isPresent()) {
+			SecurityContextHolder.getContext().setAuthentication(auth.get());
 		} else {
 			SecurityContextHolder.clearContext();
 		}

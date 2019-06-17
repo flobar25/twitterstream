@@ -16,6 +16,13 @@ import twitter4j.StatusListener;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 
+/**
+ * Simple consumer of a tweet stream containing the hastags "#photography",
+ * "#tech", "#funny" This saves the stream in the DB
+ *
+ * @author florentbariod
+ *
+ */
 @Component
 public class TwitterStreamConsumer {
 	private static final Logger LOG = LoggerFactory.getLogger(TwitterStreamConsumer.class);
@@ -25,38 +32,38 @@ public class TwitterStreamConsumer {
 
 	@PostConstruct
 	public void getStream() {
-		StatusListener listener = new StatusListener() {
+		final StatusListener listener = new StatusListener() {
 
 			@Override
-			public void onException(Exception ex) {
+			public void onException(final Exception ex) {
 				LOG.error("Exception happened during stream", ex);
 			}
 
 			@Override
-			public void onTrackLimitationNotice(int numberOfLimitedStatuses) {
+			public void onTrackLimitationNotice(final int numberOfLimitedStatuses) {
 			}
 
 			@Override
-			public void onStatus(Status status) {
+			public void onStatus(final Status status) {
 				tweetsDao.saveTweet(status.getUser().getName(), status.getText());
 			}
 
 			@Override
-			public void onStallWarning(StallWarning warning) {
+			public void onStallWarning(final StallWarning warning) {
 				LOG.warn("stalled");
 			}
 
 			@Override
-			public void onScrubGeo(long userId, long upToStatusId) {
+			public void onScrubGeo(final long userId, final long upToStatusId) {
 
 			}
 
 			@Override
-			public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
+			public void onDeletionNotice(final StatusDeletionNotice statusDeletionNotice) {
 			}
 		};
 
-		TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
+		final TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
 		twitterStream.addListener(listener);
 		twitterStream.filter("#photography", "#tech", "#funny");
 	}

@@ -15,13 +15,11 @@ public class UserController {
 
 	@RequestMapping("/signup")
 	public String signup(@RequestParam final String username, @RequestParam final String password) {
-		// TODO error handling with http codes
 		return userService.signup(username, password);
 	}
 
 	@RequestMapping("/signin")
 	public String signin(@RequestParam final String username, @RequestParam final String password) {
-		// TODO error handling with http codes
 		return userService.signin(username, password);
 	}
 }

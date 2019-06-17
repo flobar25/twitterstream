@@ -2,6 +2,7 @@ package com.newtonx.twitterstream.services;
 
 import javax.annotation.Resource;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,6 +13,12 @@ import com.newtonx.twitterstream.dao.UserRepository;
 import com.newtonx.twitterstream.entities.User;
 import com.newtonx.twitterstream.security.JwtTokenProvider;
 
+/**
+ * Service to store and load user from the DB and encode passwords.
+ *
+ * @author florentbariod
+ *
+ */
 @Component
 public class UserService {
 
@@ -27,6 +34,14 @@ public class UserService {
 	@Resource
 	private JwtTokenProvider jwtTokenProvider;
 
+	/**
+	 * Sign up a new user. This will store the user in the DB (with encrypted
+	 * password) and return a JWT token.
+	 *
+	 * @param userName
+	 * @param password
+	 * @return JWT token
+	 */
 	public String signup(final String userName, final String password) {
 		if (!userRepository.existsByUsername(userName)) {
 			final User user = new User();
@@ -47,7 +62,7 @@ public class UserService {
 		if (authentication.isAuthenticated()) {
 			return jwtTokenProvider.createToken(userName);
 		} else {
-			throw new IllegalArgumentException("Wrong username/password");
+			throw new AccessDeniedException("Wrong username/password");
 		}
 
 	}

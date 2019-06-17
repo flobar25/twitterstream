@@ -10,7 +10,12 @@ import org.springframework.stereotype.Component;
 import com.newtonx.twitterstream.dao.TweetRepository;
 import com.newtonx.twitterstream.entities.Tweet;
 
-//TODO user JPA and proper ORM if we need more complex entities
+/**
+ * SImple class to load some tweets from the configured DB.
+ *
+ * @author florentbariod
+ *
+ */
 @Component
 public class TweetsService {
 
@@ -20,12 +25,21 @@ public class TweetsService {
 	@Resource
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+	/**
+	 * @return the last 100 tweets
+	 */
 	public List<Tweet> findLastTweets() {
 		return tweetRepository.findLast100Tweets();
 	}
 
-	public void saveTweet(String userName, String text) {
-		Tweet tweet = new Tweet();
+	/**
+	 * Save a tweet in DB
+	 * 
+	 * @param userName
+	 * @param text
+	 */
+	public void saveTweet(final String userName, final String text) {
+		final Tweet tweet = new Tweet();
 		tweet.setUsername(userName);
 		tweet.setText(text);
 		tweetRepository.save(tweet);

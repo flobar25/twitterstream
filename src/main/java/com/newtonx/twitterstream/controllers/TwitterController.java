@@ -18,7 +18,6 @@ public class TwitterController {
 
 	@RequestMapping("/tweets")
 	public List<Tweet> tweets() {
-		// TODO error handling with http codes
 		return tweetsDao.findLastTweets();
 	}
 }

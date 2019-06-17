@@ -12,6 +12,13 @@ import org.springframework.stereotype.Component;
 import com.newtonx.twitterstream.dao.UserRepository;
 import com.newtonx.twitterstream.entities.User;
 
+/**
+ * Custom spring user details service. This service bridges the gap between the
+ * users stored in the db and the entities spring security is using.
+ * 
+ * @author florentbariod
+ *
+ */
 @Component
 public class CustomUserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 	@Resource

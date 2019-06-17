@@ -3,6 +3,7 @@ package com.newtonx.twitterstream.security;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -54,19 +55,27 @@ public class JwtTokenProvider {
 				.compact();
 	}
 
-	public Authentication getAuthentication(final String token) {
+	/**
+	 * Return a spring authentication model based on the parsing of the JWT token.
+	 * If no token is present, if the token is not valid or if the user does not
+	 * exist, an empty optional will be returned
+	 *
+	 * @param token
+	 * @return spring Authentication or empty (if invalid token)
+	 */
+	public Optional<Authentication> getAuthentication(final String token) {
 		if (token == null) {
-			return null;
+			return Optional.empty();
 		}
 		try {
 			Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
 		} catch (JwtException | IllegalArgumentException e) {
-			return null;
+			return Optional.empty();
 		}
 
 		final String username = getUsername(token);
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-		return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+		return Optional.of(new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities()));
 	}
 
 	public String getUsername(final String token) {
