@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS tweets (
+  id INTEGER IDENTITY PRIMARY KEY,
+  username VARCHAR(300),
+  text VARCHAR(300)
+);
+
+
