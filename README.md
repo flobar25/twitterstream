@@ -41,6 +41,13 @@ TOKEN=$(curl 'localhost:8080/signin?username=test&password=test')
 curl --header "Authorization:Bearer $TOKEN" localhost:8080/tweets
 ```
 
+### Request params
+You can search by user name and by text. To do so you can use the query parameters username and text. These have to be url encoded
+
+```
+curl --header "Authorization:Bearer $TOKEN" 'localhost:8080/tweets?text=compatibility&username=Web%20Tester'
+```
+
 ## Future improvements (out of scope)
 
 ### Better testing. 
@@ -54,6 +61,12 @@ For now, I just let spring do the mapping between the exceptions and the http er
 
 ### API documentation
 Should be generated with something like swagger
+
+### Parameter validation
+Right now the Twitter controller accepts every parameter and won't say anything if the parameter is invalid.
+
+### DAO query builder
+For simplicity reasons, I just used the JPA interface repository pattern to generate the SQL queries. This leads to a bit of code duplication to handle the different combinations of parameters. Ideally we should build the query based on the presence or not of some of the parameters.
 
  
  

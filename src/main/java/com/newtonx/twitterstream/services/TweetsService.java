@@ -28,13 +28,22 @@ public class TweetsService {
 	/**
 	 * @return the last 100 tweets
 	 */
-	public List<Tweet> findLastTweets() {
-		return tweetRepository.findLast100Tweets();
+	public List<Tweet> findLastTweets(final String user, final String text) {
+		if (user != null && text != null) {
+			return tweetRepository.findLast100TweetsByTextAndUser(text, user);
+		} else if (user != null) {
+			return tweetRepository.findLast100TweetsByUser(user);
+		} else if (text != null) {
+			return tweetRepository.findLast100TweetsByText(text);
+		} else {
+			return tweetRepository.findLast100Tweets();
+		}
+
 	}
 
 	/**
 	 * Save a tweet in DB
-	 * 
+	 *
 	 * @param userName
 	 * @param text
 	 */
