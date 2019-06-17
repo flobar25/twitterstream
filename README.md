@@ -6,7 +6,8 @@
 Couple things to know : 
 - This project needs twitter API keys. You need to add your keys in the file twitter4j.properties before building.
 - This spring boot application has an embedded hsql database that starts with the web app. In a real production application we would want the database to be separated from the web app and be in its own docker image.
-- need java 11+ to run
+- needs maven to build
+- need java 11+ to build and run
 
 ## Build
 
