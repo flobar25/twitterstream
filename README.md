@@ -51,6 +51,9 @@ We should have a DB separated from the app that doesn't live in memory and is pe
 ### Error handling
 For now, I just let spring do the mapping between the exceptions and the http error codes. Ideally we should define our own exceptions and map then to http codes. 
 
+### API documentation
+Should be generated with something like swagger
+
  
  
 
