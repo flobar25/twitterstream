@@ -7,17 +7,17 @@ import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.newtonx.twitterstream.dao.TweetsDao;
-import com.newtonx.twitterstream.models.Tweet;
+import com.newtonx.twitterstream.entities.Tweet;
+import com.newtonx.twitterstream.services.TweetsService;
 
 @RestController
 public class TwitterController {
 
 	@Resource
-	private TweetsDao tweetsDao;
+	private TweetsService tweetsDao;
 
 	@RequestMapping("/tweets")
-	public List<Tweet> index() {
+	public List<Tweet> tweets() {
 		// TODO error handling with http codes
 		return tweetsDao.findLastTweets();
 	}

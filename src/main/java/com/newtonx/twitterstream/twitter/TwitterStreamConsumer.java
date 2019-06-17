@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.newtonx.twitterstream.dao.TweetsDao;
+import com.newtonx.twitterstream.services.TweetsService;
 
 import twitter4j.StallWarning;
 import twitter4j.Status;
@@ -21,7 +21,7 @@ public class TwitterStreamConsumer {
 	private static final Logger LOG = LoggerFactory.getLogger(TwitterStreamConsumer.class);
 
 	@Resource
-	private TweetsDao tweetsDao;
+	private TweetsService tweetsDao;
 
 	@PostConstruct
 	public void getStream() {
