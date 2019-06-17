@@ -39,6 +39,17 @@ TOKEN=$(curl 'localhost:8080/signin?username=test&password=test')
 curl --header "Authorization:Bearer $TOKEN" localhost:8080/tweets
 ```
 
+## Future improvements (out of scope)
+
+### Better testing. 
+We should have unit tests of the different classes and tests that call the API and verify the responses
+
+### Separated DB
+We should have a DB separated from the app that doesn't live in memory and is persisted on the disk.
+
+### Error handling
+For now, I just let spring do the mapping between the exceptions and the http error codes. Ideally we should define our own exceptions and map then to http codes. 
+
  
  
 
