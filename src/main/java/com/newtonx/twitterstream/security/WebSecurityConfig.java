@@ -2,20 +2,28 @@ package com.newtonx.twitterstream.security;
 
 import javax.annotation.Resource;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Resource
 	private JwtTokenProvider jwtTokenProvider;
+
+	@Resource
+	private CustomUserDetailsService customUserDetailsService;
+
+	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();;
 
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
@@ -35,6 +43,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// Apply JWT
 		http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
+	}
+
+	@Override
+	public void configure(final AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+		authenticationManagerBuilder.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder);
+	}
+
+	@Bean
+	public PasswordEncoder getPasswordEncoder() {
+		return passwordEncoder;
+	}
+
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
 	}
 
 }
