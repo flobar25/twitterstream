@@ -68,6 +68,10 @@ Right now the Twitter controller accepts every parameter and won't say anything 
 ### DAO query builder
 For simplicity reasons, I just used the JPA interface repository pattern to generate the SQL queries. This leads to a bit of code duplication to handle the different combinations of parameters. Ideally we should build the query based on the presence or not of some of the parameters.
 
+### API keys
+Ideally we should not pass the api keys in the docker image directly. We should handle that through some sort of key store and environment variables.
+
+
  
  
 
