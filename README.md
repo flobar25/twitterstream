@@ -14,13 +14,13 @@ mvn clean install package
 ```
 
 ```
-docker  build . -t newtonxtweeter
+docker  build . -t newtonxtwitter
 ```
  
 ## Run
 
 ```
-docker run -p 8080:8080 newtonxtweeter
+docker run -p 8080:8080 newtonxtwitter
 ```
 
 ## Test
